@@ -1,26 +1,67 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
-import { api } from '../config/development';
+// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
+// import config from '../config/development';
 
-const userApi = createApi({
+// export const userApi = createApi({
+//     reducerPath: 'userApi',
+//     tagTypes: ["User"],
+//     baseQuery: fetchBaseQuery({ baseUrl: config.api.baseUrl }),
+//     endpoints: (builder) => ({
+
+//         signup: builder.mutation({
+//             query: (body) => ({
+//                 url: config.api.endpoints.signup,
+//                 method: 'POST',
+//                 body,
+//             }),
+//             providesTags: ["User"],
+//             transformResponse: (response) => {
+//                 // handle successful response and return data to store
+//             },
+//         }),
+//         login: builder.mutation({
+//             query: (body) => ({
+//                 url: config.api.endpoints.login,
+//                 method: 'POST',
+//                 body,
+//             }),
+//             providesTags: ["User"],
+//             transformResponse: (response) => {
+//                 // handle successful response and return data to store
+//                 sessionStorage.setItem('jwt', response.token);
+//             },
+//         }),
+//     }),
+// });
+
+// export const { useSignupMutation, useLoginMutation } = userApi
+
+
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import config from '../config/development';
+
+export const userApi = createApi({
     reducerPath: 'userApi',
-    baseQuery: fetchBaseQuery({ baseUrl: api.baseUrl }),
+    tagTypes: ['User'],
+    baseQuery: fetchBaseQuery({ baseUrl: config.api.baseUrl }),
     endpoints: (builder) => ({
         signup: builder.mutation({
             query: (body) => ({
-                url: api.endpoints.signup,
+                url: config.api.endpoints.signup,
                 method: 'POST',
                 body,
             }),
+            providesTags: ['User'],
             transformResponse: (response) => {
                 // handle successful response and return data to store
             },
         }),
         login: builder.mutation({
             query: (body) => ({
-                url: api.endpoints.login,
+                url: config.api.endpoints.login,
                 method: 'POST',
                 body,
             }),
+            providesTags: ['User'],
             transformResponse: (response) => {
                 // handle successful response and return data to store
                 sessionStorage.setItem('jwt', response.token);
@@ -29,4 +70,5 @@ const userApi = createApi({
     }),
 });
 
+// Generate hooks for each endpoint
 export const { useSignupMutation, useLoginMutation } = userApi;

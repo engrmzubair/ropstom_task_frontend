@@ -1,10 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
-import { api } from '../config/development';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import config from '../config/development';
 
-const carsApi = createApi({
+export const carsApi = createApi({
     reducerPath: 'carsApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: api.baseUrl,
+        baseUrl: config.api.baseUrl,
         prepareHeaders: (headers) => {
             const token = sessionStorage.getItem('jwt');
             if (token) {
@@ -15,20 +15,20 @@ const carsApi = createApi({
     }),
     endpoints: (builder) => ({
         getCars: builder.query({
-            query: () => api.endpoints.getCars,
+            query: () => config.api.endpoints.getCars,
             transformResponse: (response) => {
                 // handle successful response and return data to store
             },
         }),
         getCarById: builder.query({
-            query: (id) => api.endpoints.getCarById(id),
+            query: (id) => config.api.endpoints.getCarById(id),
             transformResponse: (response) => {
                 // handle successful response and return data to store
             },
         }),
         createCar: builder.mutation({
             query: (body) => ({
-                url: api.endpoints.createCar,
+                url: config.api.endpoints.createCar,
                 method: 'POST',
                 body,
             }),
@@ -38,7 +38,7 @@ const carsApi = createApi({
         }),
         updateCar: builder.mutation({
             query: ({ id, ...patch }) => ({
-                url: api.endpoints.updateCar(id),
+                url: config.api.endpoints.updateCar(id),
                 method: 'PATCH',
                 body: patch,
             }),
@@ -48,7 +48,7 @@ const carsApi = createApi({
         }),
         deleteCar: builder.mutation({
             query: (id) => ({
-                url: api.endpoints.deleteCar(id),
+                url: config.api.endpoints.deleteCar(id),
                 method: 'DELETE',
             }),
             transformResponse: (response) => {
@@ -64,4 +64,5 @@ export const {
     useCreateCarMutation,
     useUpdateCarMutation,
     useDeleteCarMutation,
-} = carsApi;
+} = carsApi
+

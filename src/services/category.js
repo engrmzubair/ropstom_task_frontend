@@ -1,10 +1,12 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
-import { api } from '../config/development';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import config from '../config/development';
 
-const categoriesApi = createApi({
+
+
+export const categoriesApi = createApi({
     reducerPath: 'categoriesApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: api.baseUrl,
+        baseUrl: config.api.baseUrl,
         prepareHeaders: (headers) => {
             const token = sessionStorage.getItem('jwt');
             if (token) {
@@ -14,10 +16,11 @@ const categoriesApi = createApi({
         },
     }),
     tagTypes: ['Category'],
+
     endpoints: (builder) => ({
         getCategories: builder.query({
             query: () => ({
-                url: api.endpoints.getCategories,
+                url: config.api.endpoints.getCategories,
             }),
             transformResponse: (response) => {
                 // handle successful response and return data to store
@@ -25,7 +28,7 @@ const categoriesApi = createApi({
         }),
         getCategoryById: builder.query({
             query: (id) => ({
-                url: api.endpoints.getCategoryById(id),
+                url: config.api.endpoints.getCategoryById(id),
             }),
             transformResponse: (response) => {
                 // handle successful response and return data to store
@@ -34,7 +37,7 @@ const categoriesApi = createApi({
         }),
         createCategory: builder.mutation({
             query: (body) => ({
-                url: api.endpoints.createCategory,
+                url: config.api.endpoints.createCategory,
                 method: 'POST',
                 body,
             }),
@@ -45,7 +48,7 @@ const categoriesApi = createApi({
         }),
         updateCategory: builder.mutation({
             query: ({ id, body }) => ({
-                url: api.endpoints.updateCategory(id),
+                url: config.api.endpoints.updateCategory(id),
                 method: 'PATCH',
                 body,
             }),
@@ -56,7 +59,7 @@ const categoriesApi = createApi({
         }),
         deleteCategory: builder.mutation({
             query: (id) => ({
-                url: api.endpoints.deleteCategory(id),
+                url: config.api.endpoints.deleteCategory(id),
                 method: 'DELETE',
             }),
             transformResponse: (response) => {
@@ -73,4 +76,5 @@ export const {
     useCreateCategoryMutation,
     useUpdateCategoryMutation,
     useDeleteCategoryMutation,
-} = categoriesApi;
+} = categoriesApi
+
