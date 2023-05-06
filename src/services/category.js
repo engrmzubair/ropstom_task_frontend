@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
 import { api } from '../config/development';
-import { categoryValidationSchema } from '../utils/validations';
 
 const categoriesApi = createApi({
     reducerPath: 'categoriesApi',
@@ -42,9 +41,6 @@ const categoriesApi = createApi({
             transformResponse: (response) => {
                 // handle successful response and return data to store
             },
-            validate: {
-                body: categoryValidationSchema,
-            },
             invalidatesTags: [{ type: 'Category', id: 'LIST' }],
         }),
         updateCategory: builder.mutation({
@@ -55,9 +51,6 @@ const categoriesApi = createApi({
             }),
             transformResponse: (response) => {
                 // handle successful response and return data to store
-            },
-            validate: {
-                body: categoryValidationSchema,
             },
             invalidatesTags: (result, error, { id }) => [{ type: 'Category', id }],
         }),

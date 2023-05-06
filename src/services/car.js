@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
 import { api } from '../config/development';
-import { carValidationSchema } from '../utils/validations';
 
 const carsApi = createApi({
     reducerPath: 'carsApi',
@@ -36,9 +35,6 @@ const carsApi = createApi({
             transformResponse: (response) => {
                 // handle successful response and return data to store
             },
-            validate: {
-                body: carValidationSchema,
-            },
         }),
         updateCar: builder.mutation({
             query: ({ id, ...patch }) => ({
@@ -48,9 +44,6 @@ const carsApi = createApi({
             }),
             transformResponse: (response) => {
                 // handle successful response and return data to store
-            },
-            validate: {
-                body: carValidationSchema,
             },
         }),
         deleteCar: builder.mutation({
