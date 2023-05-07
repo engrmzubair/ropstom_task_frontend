@@ -1,25 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Button, Space } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import UpdateCar from './updateCar';
+import { useDeleteCarMutation } from '../services/car';
+import { toast } from 'react-toastify';
 
-const CarCard = ({ car = {}, onEdit, onDelete }) => {
+const CarCard = ({ car = {}, onDelete, refetchCars }) => {
+    const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+    const [deleteCar, { isLoading, error, isError }] = useDeleteCarMutation()
+
     const { make, model, year, color, price } = car;
 
+    const handleEditClick = () => {
+        setIsUpdateModalVisible(true);
+    };
+
+    const handleUpdateCancel = () => {
+        setIsUpdateModalVisible(false);
+    };
+
+    const handleDeleteClick = async () => {
+        try {
+            await deleteCar(car._id)
+            toast.success("Car Deleted");
+            refetchCars()
+        } catch (error) {
+            console.error(error);
+            toast.error("Something went Wrong")
+        }
+    }
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(error?.data?.message)
+        }
+    }, [isError])
+
     return (
-        <Card
-            title={`${make} ${model}`}
-            style={{ width: '300px', marginBottom: 16, height: '280px' }}
-            actions={[
-                <Space>
-                    <Button icon={<EditOutlined />} onClick={onEdit} />
-                    <Button icon={<DeleteOutlined />} onClick={onDelete} />
-                </Space>,
-            ]}
-        >
-            <p style={{ fontSize: '14px' }}>Year: {year}</p>
-            <p style={{ fontSize: '14px' }}>Color: {color}</p>
-            <p style={{ fontSize: '14px' }}>Price: {price}</p>
-        </Card>
+        <>
+            <Card
+                title={`${make} ${model}`}
+                style={{ width: '300px', marginBottom: 16, height: '280px' }}
+                actions={[
+                    <Space>
+                        <Button icon={<EditOutlined />} onClick={handleEditClick} />
+                        <Button icon={<DeleteOutlined />} onClick={handleDeleteClick} />
+                    </Space>,
+                ]}
+            >
+                <p style={{ fontSize: '14px' }}>Year: {year}</p>
+                <p style={{ fontSize: '14px' }}>Color: {color}</p>
+                <p style={{ fontSize: '14px' }}>Price: {price}$</p>
+            </Card>
+            <UpdateCar visible={isUpdateModalVisible} refetchCars={refetchCars} onCancel={handleUpdateCancel} car={car} />
+        </>
     );
 };
 

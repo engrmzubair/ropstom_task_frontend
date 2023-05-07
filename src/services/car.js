@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import config from '../config/development';
+import queryString from 'query-string';
 
 export const carsApi = createApi({
     reducerPath: 'carsApi',
@@ -15,7 +16,7 @@ export const carsApi = createApi({
     }),
     endpoints: (builder) => ({
         getCars: builder.query({
-            query: () => config.api.endpoints.getCars,
+            query: (query) => config.api.endpoints.getCars(queryString.stringify(query)),
             transformResponse: (response) => {
                 // handle successful response and return data to store
                 return response
@@ -38,10 +39,10 @@ export const carsApi = createApi({
             },
         }),
         updateCar: builder.mutation({
-            query: ({ id, ...patch }) => ({
+            query: ({ id, data }) => ({
                 url: config.api.endpoints.updateCar(id),
                 method: 'PATCH',
-                body: patch,
+                body: data,
             }),
             transformResponse: (response) => {
                 // handle successful response and return data to store

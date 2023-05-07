@@ -7,12 +7,13 @@ import { toast } from 'react-toastify';
 
 const AddCategory = ({ modalVisible, handleOk, handleCancel, refetch }) => {
     const [form] = Form.useForm();
-    const [createCategory, { isLoading, isSuccess, error }] = useCreateCategoryMutation();
+    const [createCategory, { isLoading, isSuccess, error, isError }] = useCreateCategoryMutation();
 
 
     const onFinish = async (values) => {
         try {
             await createCategory(values);
+            toast.success("Category Added")
             refetch();
             form.resetFields();
             handleOk();
@@ -22,10 +23,10 @@ const AddCategory = ({ modalVisible, handleOk, handleCancel, refetch }) => {
     };
 
     useEffect(() => {
-        if (error) {
+        if (isError) {
             toast.error(error?.data?.message)
         }
-    }, [error])
+    }, [isError])
 
     return (
         <Modal title="Add Category" visible={modalVisible} onOk={form.submit} onCancel={handleCancel} confirmLoading={isLoading}>

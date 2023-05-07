@@ -20,7 +20,7 @@ function CustomHeader({ activeTab, handleLogout }) {
                 <Menu.Item key="">Dashboard</Menu.Item>
                 <Menu.Item key="categories">Categories</Menu.Item>
                 <Menu.Item key="cars">Cars</Menu.Item>
-                <Menu.Item key="logout" style={{ float: 'right', marginLeft: 'auto' }}>
+                <Menu.Item key="login" style={{ float: 'right', marginLeft: 'auto' }}>
                     <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout} style={{ color: '#fff' }}>
                         Logout
                     </Button>

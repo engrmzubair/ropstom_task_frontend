@@ -4,7 +4,7 @@ const config = {
         endpoints: {
             signup: '/auth/signup',
             login: '/auth/login',
-            getCars: '/cars',
+            getCars: (q) => `/cars?${q}`,
             getCarById: (id) => `/cars/${id}`,
             createCar: '/cars/create',
             updateCar: (id) => `/cars/update/${id}`,

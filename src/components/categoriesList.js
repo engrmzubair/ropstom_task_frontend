@@ -11,14 +11,14 @@ const CategoriesList = () => {
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const { data, isLoading, error, refetch } = useGetCategoriesQuery();
-    const [deleteCategory, { isLoading: isDeleting, error: deleteError }] = useDeleteCategoryMutation();
+    const [deleteCategory, { isLoading: isDeleting, error: deleteError, isError: isDeleteError }] = useDeleteCategoryMutation();
 
 
     useEffect(() => {
-        if (deleteError) {
+        if (isDeleteError) {
             toast.error(deleteError?.data?.message)
         }
-    }, [deleteError])
+    }, [isDeleteError])
 
     const handleEdit = (category) => {
         setSelectedCategory(category);
@@ -28,6 +28,7 @@ const CategoriesList = () => {
     const handleDelete = async (categoryId) => {
         try {
             await deleteCategory(categoryId).unwrap();
+            toast.success("Category Deleted")
             refetch();
         } catch (error) {
             console.log('Failed to delete category', error);

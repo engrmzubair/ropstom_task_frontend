@@ -5,13 +5,14 @@ import { toast } from 'react-toastify';
 
 const UpdateCategory = ({ category, modalVisible, handleOk, handleCancel, refetch }) => {
     const [form] = Form.useForm();
-    const [updateCategory, { isLoading, error }] = useUpdateCategoryMutation();
+    const [updateCategory, { isLoading, error, isError }] = useUpdateCategoryMutation();
 
     const onFinish = async (values) => {
         try {
 
             const { data } = await updateCategory({ id: category._id, name: values.categoryName });
             if (data) {
+                toast.success("Category Updated")
                 refetch();
                 handleOk();
             }
@@ -21,10 +22,10 @@ const UpdateCategory = ({ category, modalVisible, handleOk, handleCancel, refetc
     };
 
     useEffect(() => {
-        if (error) {
+        if (isError) {
             toast.error(error?.data?.message)
         }
-    }, [error])
+    }, [isError])
 
     return (
         <Modal title={`Edit Category: ${category.name}`} visible={modalVisible} onOk={form.submit} onCancel={handleCancel} footer={[
