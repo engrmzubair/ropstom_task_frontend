@@ -8,7 +8,7 @@ const CarCard = ({ car = {}, onEdit, onDelete }) => {
     return (
         <Card
             title={`${make} ${model}`}
-            style={{ width: '300px', marginBottom: 16 }}
+            style={{ width: '300px', marginBottom: 16, height: '280px' }}
             actions={[
                 <Space>
                     <Button icon={<EditOutlined />} onClick={onEdit} />
