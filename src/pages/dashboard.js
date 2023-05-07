@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import useAuth from '../hooks/useAuth'
 import { Layout, Breadcrumb } from 'antd';
 import CustomHeader from '../components/customHeader';
+import { useGetCarsQuery } from '../services/car';
 
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 function Dashboard() {
     useAuth();
+    const { data = [] } = useGetCarsQuery();
 
     return (
         <Layout className="layout">
@@ -17,7 +19,7 @@ function Dashboard() {
                     <Breadcrumb.Item>Overview</Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="site-layout-content">
-                    <p>Total Registered Cars: 100</p>
+                    <p>Total Cars: {data.totalCount}</p>
                 </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>Car Management System ©2023 Created by Your Name</Footer>
