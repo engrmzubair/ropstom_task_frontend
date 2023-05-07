@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { List, Button, Space, Modal, Form, Input } from 'antd';
 import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import AddCategory from './addCategroy';
 import UpdateCategory from './updateCategory';
 import { useGetCategoriesQuery, useDeleteCategoryMutation } from '../services/category';
+import { toast } from 'react-toastify';
 
 const CategoriesList = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const { data, isLoading, error, refetch } = useGetCategoriesQuery();
-    const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoryMutation();
+    const [deleteCategory, { isLoading: isDeleting, error: deleteError }] = useDeleteCategoryMutation();
+
+
+    useEffect(() => {
+        if (deleteError) {
+            toast.error(deleteError?.data?.message)
+        }
+    }, [deleteError])
 
     const handleEdit = (category) => {
         setSelectedCategory(category);

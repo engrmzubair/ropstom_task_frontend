@@ -18,6 +18,7 @@ export const carsApi = createApi({
             query: () => config.api.endpoints.getCars,
             transformResponse: (response) => {
                 // handle successful response and return data to store
+                return response
             },
         }),
         getCarById: builder.query({

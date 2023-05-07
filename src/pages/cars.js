@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Layout, Row, Col } from 'antd';
+import { Layout, Row, Col, Button } from 'antd';
 import CustomHeader from '../components/customHeader';
 import CarFilter from '../components/carFilter';
 import CarPagination from '../components/carPagination';
@@ -16,11 +16,10 @@ function Cars() {
     const page = Number(params.page);
     console.log({ params, page })
 
-    const { data: cars = [], isLoading } = useGetCarsQuery({
+    const { data = [], isLoading } = useGetCarsQuery({
         page,
         perPage: 6,
     });
-
 
     const handlePageChange = (page) => {
         setSearchParams({ ...params, page: String(page) });
@@ -34,15 +33,23 @@ function Cars() {
                     <CarFilter />
                 </Col>
                 <Col span={19}>
-                    <Row gutter={[16, 16]}>
-                        {[...Array(6)].map((car, i) => (
-                            <Col key={i} span={8}>
+                    <Row align="middle" gutter={[16, 16]}>
+                        <Col span={12}>
+                            <h2>Cars</h2>
+                        </Col>
+                        <Col span={12} style={{ textAlign: 'right' }}>
+                            <Button type="primary" style={{ marginRight: "18px" }} onClick={() => { }}>
+                                Add Car
+                            </Button>
+                        </Col>
+                        {data?.cars?.map((car, i) => (
+                            <Col key={car._id} span={8}>
                                 <CarCard car={car} />
                             </Col>
                         ))}
                     </Row>
                     <CarPagination
-                        total={30}
+                        total={data?.totalCount}
                         pageSize={6}
                         current={page}
                         onPageChange={handlePageChange}
@@ -50,6 +57,7 @@ function Cars() {
                 </Col>
             </Row>
         </Layout>
+
     );
 }
 
