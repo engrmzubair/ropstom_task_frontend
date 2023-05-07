@@ -35,8 +35,8 @@ const LoginPage = () => {
     }, [isSuccess])
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
-            <Card title="Login">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <Card title="Login" style={{ display: 'flex', flexDirection: 'column' }}>
                 <Form onFinish={formik.handleSubmit}>
                     <Form.Item
                         label="Email"
@@ -58,7 +58,7 @@ const LoginPage = () => {
                     >
                         <Input.Password name="password" value={formik.values.password} onChange={formik.handleChange} />
                     </Form.Item>
-                    <Form.Item wrapperCol={{ offset: 6 }}>
+                    <Form.Item style={{ display: 'flex', justifyContent: 'flex-start' }}>
                         <Button type="primary" htmlType="submit" loading={isLoading}>
                             Login
                         </Button>
@@ -70,6 +70,8 @@ const LoginPage = () => {
             </Card>
         </div>
     );
+
+
 };
 
 export default LoginPage;

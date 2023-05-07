@@ -1,4 +1,6 @@
 import App from "../App";
+import Cars from "../pages/cars";
+import Categories from "../pages/categories";
 
 import Dashboard from "../pages/dashboard";
 import ErrorPage from "../pages/errorPage";
@@ -22,6 +24,16 @@ export const getRoutes = () => [
     {
         path: "/login",
         element: <Login />,
+
+    },
+    {
+        path: "/categories",
+        element: <Categories />,
+
+    },
+    {
+        path: "/cars",
+        element: <Cars />,
 
     },
 

@@ -24,6 +24,7 @@ export const categoriesApi = createApi({
             }),
             transformResponse: (response) => {
                 // handle successful response and return data to store
+                return response.categories;
             },
         }),
         getCategoryById: builder.query({
@@ -43,17 +44,19 @@ export const categoriesApi = createApi({
             }),
             transformResponse: (response) => {
                 // handle successful response and return data to store
+                return response
             },
             invalidatesTags: [{ type: 'Category', id: 'LIST' }],
         }),
         updateCategory: builder.mutation({
-            query: ({ id, body }) => ({
+            query: ({ id, name }) => ({
                 url: config.api.endpoints.updateCategory(id),
                 method: 'PATCH',
-                body,
+                body: { name },
             }),
             transformResponse: (response) => {
                 // handle successful response and return data to store
+                return response
             },
             invalidatesTags: (result, error, { id }) => [{ type: 'Category', id }],
         }),
