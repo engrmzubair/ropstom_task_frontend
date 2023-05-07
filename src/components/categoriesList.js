@@ -10,8 +10,8 @@ const CategoriesList = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const { data, isLoading, error, refetch } = useGetCategoriesQuery();
-    const [deleteCategory, { isLoading: isDeleting, error: deleteError, isError: isDeleteError }] = useDeleteCategoryMutation();
+    const { data, refetch } = useGetCategoriesQuery();
+    const [deleteCategory, { isLoading: isDeleting, error: deleteError, isError: isDeleteError, isSuccess: isDeleteSuccess }] = useDeleteCategoryMutation();
 
 
     useEffect(() => {
@@ -20,20 +20,21 @@ const CategoriesList = () => {
         }
     }, [isDeleteError])
 
+    useEffect(() => {
+        if (isDeleteSuccess) {
+            toast.success("Category Deleted")
+            refetch();
+        }
+    }, [isDeleteSuccess])
+
     const handleEdit = (category) => {
         setSelectedCategory(category);
         setEditModalVisible(true);
     };
 
-    const handleDelete = async (categoryId) => {
-        try {
-            await deleteCategory(categoryId).unwrap();
-            toast.success("Category Deleted")
-            refetch();
-        } catch (error) {
-            console.log('Failed to delete category', error);
-        }
-    };
+    const handleDelete = (categoryId) => {
+        deleteCategory(categoryId).unwrap();
+    }
 
     const handleAdd = () => {
         setModalVisible(true);
@@ -57,7 +58,7 @@ const CategoriesList = () => {
     };
 
     return (
-        <div style={{ margin: '0 auto', width: '60%' }}>
+        <div style={{ margin: '0 auto', width: '60%', marginBottom: "50px" }}>
             <div style={{ backgroundColor: '#f0f2f5', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h2>Categories</h2>
                 <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>Add Category</Button>

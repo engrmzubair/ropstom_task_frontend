@@ -9,21 +9,21 @@ const { Option } = Select;
 
 const AddCar = ({ visible, onCancel, refetchCars }) => {
     const [form] = Form.useForm();
-    const [createCar, { isLoading, error, isError }] = useCreateCarMutation();
+    const [createCar, { isLoading, error, isError, isSuccess }] = useCreateCarMutation();
     const { data: categories } = useGetCategoriesQuery();
 
-    const onFinish = async (values) => {
-        console.log("values => ", values)
-        try {
-            await createCar(values).unwrap();
+    const onFinish = (values) => {
+        createCar(values).unwrap();
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
             toast.success("Car Added")
             refetchCars()
             onCancel();
             form.resetFields();
-        } catch (err) {
-            console.error(err);
         }
-    };
+    }, [isSuccess])
 
     useEffect(() => {
         if (isError) {

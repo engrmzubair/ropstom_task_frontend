@@ -9,21 +9,21 @@ const { Option } = Select;
 
 const UpdateCar = ({ visible, onCancel, car, refetchCars }) => {
     const [form] = Form.useForm();
-    const [updateCar, { isLoading, error, isError }] = useUpdateCarMutation();
+    const [updateCar, { isLoading, error, isError, isSuccess }] = useUpdateCarMutation();
     const { data: categories } = useGetCategoriesQuery();
 
-    const onFinish = async (values) => {
-        try {
-            await updateCar({ id: car._id, data: values }).unwrap();
+    const onFinish = (values) => {
+        updateCar({ id: car._id, data: values })
+    }
+
+    useEffect(() => {
+        if (isSuccess) {
             toast.success("Car Updated")
             refetchCars()
             onCancel();
             form.resetFields();
-        } catch (err) {
-            console.error(err);
-            toast.error("Something went Wrong")
         }
-    };
+    }, [isSuccess])
 
     useEffect(() => {
         if (isError) {

@@ -9,7 +9,7 @@ function Categories() {
     useAuth();
 
     return (
-        <Layout className="layout">
+        <Layout className="layout" >
             <CustomHeader />
             <div style={{ margin: '0 auto', width: '60%' }}>
 

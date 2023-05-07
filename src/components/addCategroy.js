@@ -4,23 +4,23 @@ import { useCreateCategoryMutation } from '../services/category';
 import { toast } from 'react-toastify';
 
 
-
 const AddCategory = ({ modalVisible, handleOk, handleCancel, refetch }) => {
     const [form] = Form.useForm();
     const [createCategory, { isLoading, isSuccess, error, isError }] = useCreateCategoryMutation();
 
 
-    const onFinish = async (values) => {
-        try {
-            await createCategory(values);
+    const onFinish = (values) => {
+        createCategory(values);
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
             toast.success("Category Added")
             refetch();
-            form.resetFields();
             handleOk();
-        } catch (error) {
-            console.error('Failed to create category:', error);
+            form.resetFields();
         }
-    };
+    }, [isSuccess])
 
     useEffect(() => {
         if (isError) {

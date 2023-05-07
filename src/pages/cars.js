@@ -15,7 +15,6 @@ function Cars() {
     // Get all params as an object
     const params = Object.fromEntries(searchParams.entries());
     // const page = Number(params.page);
-    const page = 1
 
     const priceRange = params.priceRange
         ? {
@@ -24,7 +23,7 @@ function Cars() {
         }
         : {};
 
-    const { data = [], isLoading, refetch } = useGetCarsQuery({
+    const { data = [], refetch } = useGetCarsQuery({
         page: params.page,
         limit: 6,
         year: Number(params.year) || "",
@@ -33,8 +32,6 @@ function Cars() {
         color: params.color?.toLowerCase() || "",
         ...priceRange
     });
-
-    console.log("year type => ", typeof params.year)
 
     const handlePageChange = (page) => {
         setSearchParams({ ...params, page: String(page) });

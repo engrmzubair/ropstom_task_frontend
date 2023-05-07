@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 const CarCard = ({ car = {}, onDelete, refetchCars }) => {
     const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
-    const [deleteCar, { isLoading, error, isError }] = useDeleteCarMutation()
+    const [deleteCar, { isLoading, error, isError, isSuccess }] = useDeleteCarMutation()
 
     const { make, model, year, color, price } = car;
 
@@ -19,16 +19,16 @@ const CarCard = ({ car = {}, onDelete, refetchCars }) => {
         setIsUpdateModalVisible(false);
     };
 
-    const handleDeleteClick = async () => {
-        try {
-            await deleteCar(car._id)
+    const handleDeleteClick = () => {
+        deleteCar(car._id)
+    }
+
+    useEffect(() => {
+        if (isSuccess) {
             toast.success("Car Deleted");
             refetchCars()
-        } catch (error) {
-            console.error(error);
-            toast.error("Something went Wrong")
         }
-    }
+    }, [isSuccess])
 
     useEffect(() => {
         if (isError) {

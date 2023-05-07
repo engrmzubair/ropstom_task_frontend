@@ -22,7 +22,7 @@ function Dashboard() {
                     <p>Total Cars: {data.totalCount}</p>
                 </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>Car Management System ©2023 Created by Your Name</Footer>
+            <Footer style={{ textAlign: 'center' }}>Ropstam MERN Task ©2023 Created by Your Name</Footer>
         </Layout>
     );
 }

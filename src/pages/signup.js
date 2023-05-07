@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { signupValidation } from '../utils/validations/userValidation';
 import { useSignupMutation } from '../services/user';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -20,8 +20,16 @@ const SignupPage = () => {
             createUser(values);
         },
     });
+    const navigate = useNavigate()
 
     console.log({ isSuccess })
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Password has been sent to your email address!")
+            setTimeout(() => navigate("/login"), 500)
+        }
+    }, [isSuccess])
 
     useEffect(() => {
         if (error) {

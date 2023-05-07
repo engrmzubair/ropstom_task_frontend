@@ -5,21 +5,19 @@ import { toast } from 'react-toastify';
 
 const UpdateCategory = ({ category, modalVisible, handleOk, handleCancel, refetch }) => {
     const [form] = Form.useForm();
-    const [updateCategory, { isLoading, error, isError }] = useUpdateCategoryMutation();
+    const [updateCategory, { isLoading, error, isError, isSuccess }] = useUpdateCategoryMutation();
 
-    const onFinish = async (values) => {
-        try {
-
-            const { data } = await updateCategory({ id: category._id, name: values.categoryName });
-            if (data) {
-                toast.success("Category Updated")
-                refetch();
-                handleOk();
-            }
-        } catch (err) {
-            console.error(err);
-        }
+    const onFinish = (values) => {
+        updateCategory({ id: category._id, name: values.categoryName });
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Category Updated")
+            refetch();
+            handleOk();
+        }
+    }, [isSuccess])
 
     useEffect(() => {
         if (isError) {
